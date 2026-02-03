@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <title>Enzy.de | Die Digitale Enzyklopädie - Wissen mit Weitblick</title>
+    <meta name="description"
+        content="Enzy.de ist Ihre moderne Enzyklopädie für das digitale Zeitalter. Entdecken Sie tiefgreifende Artikel über Wissenschaft, Geschichte, Technologie und Kultur. Fundiert, unabhängig und aktuell." />
+    <meta name="keywords"
+        content="Enzyklopädie online, Wissensdatenbank, Lexikon digital, Bildung, Wissenschaftsartikel, Kulturgeschichte, Technologie-Guide, Digitales Wissen" />
+    <meta name="robots" content="index, follow" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700;800;900&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        libraryGreen: '#064E3B',
+                        academicNavy: '#0F172A',
+                        classicGold: '#D4AF37',
+                        cream: '#FDFBF7',
+                        slateLight: '#94A3B8',
+                        goldLight: '#F5E6BE',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FDFBF7;
+            color: #0F172A;
+            font-feature-settings: 'lnum' 1;
+        }
+
+        .fade-enter {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .fade-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .prose h2 {
+            color: #064E3B;
+            font-family: 'Playfair Display', serif;
+            margin-top: 5rem;
+            margin-bottom: 2.5rem;
+            font-size: 3rem;
+            text-align: center;
+            letter-spacing: -0.02em;
+        }
+
+        .prose h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            margin-top: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: #0F172A;
+        }
+
+        .prose p {
+            margin-bottom: 2rem;
+            line-height: 2;
+            font-size: 1.25rem;
+            color: #1E293B;
+            text-align: justify;
+        }
+
+        .dropcap::first-letter {
+            font-family: 'Playfair Display', serif;
+            float: left;
+            font-size: 5rem;
+            line-height: 1;
+            padding-right: 0.75rem;
+            color: #D4AF37;
+            font-weight: 900;
+        }
+    </style>
+</head>
+
+<body class="antialiased font-sans leading-relaxed">
+
+    <!-- Navigation -->
+    <section class="bg-libraryGreen z-50 sticky top-0 border-b border-classicGold/30 shadow-2xl"
+        x-data="{ mobileMenu: false }">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between h-24">
+                <a href="/" class="flex items-center gap-3 group">
+                    <div
+                        class="w-12 h-12 bg-classicGold rounded-xl flex items-center justify-center font-serif font-black text-libraryGreen group-hover:bg-goldLight transition-all duration-300 shadow-lg">
+                        E</div>
+                    <span
+                        class="text-white font-serif font-bold text-2xl tracking-tight hidden sm:block italic">Enzy<span
+                            class="text-classicGold">.de</span></span>
+                </a>
+
+                <nav
+                    class="hidden lg:flex items-center gap-10 text-white/90 font-medium text-[14px] uppercase tracking-[0.2em]">
+                    <a href="/"
+                        class="hover:text-classicGold transition-colors border-b border-transparent hover:border-classicGold py-1">Archiv</a>
+                    <a href="/"
+                        class="hover:text-classicGold transition-colors border-b border-transparent hover:border-classicGold py-1">Wissenschaft</a>
+                    <a href="/"
+                        class="hover:text-classicGold transition-colors border-b border-transparent hover:border-classicGold py-1">Kultur</a>
+                    <a href="/"
+                        class="hover:text-classicGold transition-colors border-b border-transparent hover:border-classicGold py-1">Digital</a>
+                </nav>
+
+                <div class="flex items-center gap-6">
+                    <button
+                        class="hidden md:block bg-classicGold text-libraryGreen font-black rounded-lg px-8 py-3 hover:bg-goldLight transition-all transform hover:scale-105 text-xs uppercase tracking-widest shadow-xl">Recherche</button>
+                    <button @click="mobileMenu = !mobileMenu" class="lg:hidden text-white p-2">
+                        <svg x-show="!mobileMenu" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                        <svg x-show="mobileMenu" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenu" x-transition
+            class="lg:hidden bg-cream border-t border-classicGold/20 py-8 px-6 max-h-[80vh] overflow-y-auto shadow-inner">
+            <nav class="flex flex-col gap-6 text-academicNavy font-bold text-lg uppercase tracking-widest">
+                <a href="/" class="py-4 border-b border-academicNavy/10">Home</a>
+                <a href="/" class="py-4 border-b border-academicNavy/10">Wissenschaft</a>
+                <a href="/" class="py-4 border-b border-academicNavy/10">Geschichte</a>
+                <a href="/" class="py-4 border-b border-academicNavy/10">Kultur</a>
+                <button class="mt-8 bg-libraryGreen text-white py-5 rounded-xl">Suche starten</button>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <header
+        class="relative w-full min-h-[85vh] flex items-center justify-center overflow-hidden bg-academicNavy text-white">
+        <div class="absolute inset-0 z-0">
+            <div
+                class="absolute inset-0 bg-gradient-to-b from-academicNavy/40 via-academicNavy/70 to-academicNavy z-10">
+            </div>
+            <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2600"
+                alt="Alte Bibliothek mit Fokus auf Wissen" class="w-full h-full object-cover transform scale-110">
+        </div>
+
+        <div class="relative z-20 container mx-auto px-6 text-center max-w-5xl pt-24">
+            <div
+                class="inline-block px-6 py-2 mb-10 text-xs font-bold tracking-[0.4em] text-classicGold uppercase bg-libraryGreen/40 backdrop-blur-md rounded-full border border-classicGold/30 animate-fade-in-up">
+                Das Vermächtnis des Geistes
+            </div>
+
+            <h1
+                class="text-6xl md:text-9xl font-serif font-black leading-tight mb-10 animate-fade-in-up drop-shadow-2xl">
+                Wissen im <span class="italic text-classicGold">Wandel</span>.
+            </h1>
+
+            <p
+                class="text-xl md:text-3xl text-slateLight font-light mb-16 max-w-4xl mx-auto leading-relaxed animate-fade-in-up">
+                Von den antiken Papyrusrollen bis zur globalen Vernetzung. Wir dokumentieren die Evolution der
+                Erkenntnis und die Tiefe des menschlichen Verstands.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-8 animate-fade-in-up">
+                <a href="#lesesaal"
+                    class="px-14 py-6 text-xl font-bold text-libraryGreen bg-classicGold rounded-xl hover:bg-goldLight transition-all shadow-2xl transform hover:-translate-y-2">Eintreten</a>
+                <a href="#archiv"
+                    class="px-14 py-6 text-xl font-bold text-white border-2 border-white/30 hover:border-classicGold hover:text-classicGold transition-all backdrop-blur-sm">Archiv
+                    durchsuchen</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="lesesaal" class="bg-cream">
+        <div class="container mx-auto px-6 pt-24 pb-48 max-w-5xl">
+            <article class="prose prose-2xl max-w-none text-academicNavy">
+
+                <h2 class="font-black italic">Die Evolution der Enzyklopädie: <br>Ein Spiegel der menschlichen
+                    Zivilisation</h2>
+
+                <p class="dropcap">
+                    Seit Anbeginn der geschriebenen Geschichte hat der Mensch versucht, die Summe seines Wissens an
+                    einem Ort zu vereinen. Was einst mit den monumentalen Bestrebungen einer Bibliothek von Alexandria
+                    begann, hat sich über Jahrtausende zu dem entwickelt, was wir heute als moderne Enzyklopädie
+                    bezeichnen. In einer Welt, die von einem ständigen Strom an Informationen überflutet wird, dient das
+                    enzyklopädische Prinzip nicht mehr nur der bloßen Speicherung von Fakten, sondern vor allem der
+                    Einordnung, Validierung und Bewahrung kulturellen Erbes.
+                </p>
+
+                <p>
+                    Wissen ist kein statisches Gebilde, sondern ein lebendiger Organismus, der mit jeder Entdeckung,
+                    jeder philosophischen Strömung und jedem technischen Durchbruch wächst. Die Enzyklopädie ist dabei
+                    weit mehr als ein Nachschlagewerk; sie ist eine Kartografie des menschlichen Geistes. Auf
+                    <strong>Enzy.de</strong> widmen wir uns der Aufgabe, diese Kartografie für das 21. Jahrhundert zu
+                    verfeinern, indem wir historische Tiefe mit modernen Analysewerkzeugen verknüpfen.
+                </p>
+
+                <!-- Recommendation Section -->
+                <section class="my-32 not-prose">
+                    <div class="text-center mb-20">
+                        <h3 class="text-5xl font-serif font-black text-libraryGreen mb-6">Der Kanon der Klassiker</h3>
+                        <div class="w-32 h-1.5 bg-classicGold mx-auto"></div>
+                        <p class="text-slateLight text-xl mt-8">Empfohlene Werke für den Aufbau einer privaten
+                            Bibliothek</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                        <!-- Product 1 -->
+                        <div
+                            class="group bg-white p-12 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] hover:shadow-[0_40px_80px_rgba(0,0,0,0.1)] transition-all border border-academicNavy/5 flex flex-col text-center">
+                            <div
+                                class="w-24 h-24 bg-libraryGreen/5 rounded-[2rem] flex items-center justify-center mb-10 mx-auto text-libraryGreen group-hover:bg-libraryGreen group-hover:text-white transition-all duration-500 text-4xl shadow-md">
+                                📜</div>
+                            <h4 class="text-2xl font-black mb-4 text-academicNavy">Enzyklopädische Werke</h4>
+                            <p class="text-slateLight text-base mb-10 leading-relaxed">Systematische Sammlungen des
+                                Wissens von der Antike bis heute.</p>
+                            <a href="https://www.amazon.de/s?k=enzyklopädie+lexikon+sammlung&tag=park-king-21"
+                                target="_blank" rel="noopener sponsored"
+                                class="mt-auto inline-block py-5 px-10 bg-libraryGreen text-white rounded-xl font-bold hover:bg-classicGold hover:text-libraryGreen transition-all text-xs uppercase tracking-widest shadow-xl">Im
+                                Bestand suchen</a>
+                        </div>
+                        <!-- Product 2 -->
+                        <div
+                            class="group bg-white p-12 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] hover:shadow-[0_40px_80px_rgba(0,0,0,0.1)] transition-all border border-academicNavy/5 flex flex-col text-center">
+                            <div
+                                class="w-24 h-24 bg-libraryGreen/5 rounded-[2rem] flex items-center justify-center mb-10 mx-auto text-libraryGreen group-hover:bg-libraryGreen group-hover:text-white transition-all duration-500 text-4xl shadow-md">
+                                🖊️</div>
+                            <h4 class="text-2xl font-black mb-4 text-academicNavy">Akademisches Schreiben</h4>
+                            <p class="text-slateLight text-base mb-10 leading-relaxed">Werkzeuge und Literatur für
+                                präzise Wissensvermittlung.</p>
+                            <a href="https://www.amazon.de/s?k=akademisches+schreiben+profi&tag=park-king-21"
+                                target="_blank" rel="noopener sponsored"
+                                class="mt-auto inline-block py-5 px-10 bg-libraryGreen text-white rounded-xl font-bold hover:bg-classicGold hover:text-libraryGreen transition-all text-xs uppercase tracking-widest shadow-xl">Handwerk
+                                lernen</a>
+                        </div>
+                        <!-- Product 3 -->
+                        <div
+                            class="group bg-white p-12 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] hover:shadow-[0_40px_80px_rgba(0,0,0,0.1)] transition-all border border-academicNavy/5 flex flex-col text-center">
+                            <div
+                                class="w-24 h-24 bg-libraryGreen/5 rounded-[2rem] flex items-center justify-center mb-10 mx-auto text-libraryGreen group-hover:bg-libraryGreen group-hover:text-white transition-all duration-500 text-4xl shadow-md">
+                                👓</div>
+                            <h4 class="text-2xl font-black mb-4 text-academicNavy">Digitale Archivierung</h4>
+                            <p class="text-slateLight text-base mb-10 leading-relaxed">E-Reader und Datenträger für die
+                                moderne Recherche.</p>
+                            <a href="https://www.amazon.de/s?k=ereader+bestseller+profi&tag=park-king-21"
+                                target="_blank" rel="noopener sponsored"
+                                class="mt-auto inline-block py-5 px-10 bg-libraryGreen text-white rounded-xl font-bold hover:bg-classicGold hover:text-libraryGreen transition-all text-xs uppercase tracking-widest shadow-xl">Technik
+                                sichten</a>
+                        </div>
+                    </div>
+                </section>
+                <div class="text-center mt-12 w-full">
+                    <p class="text-[11px] text-academicNavy/40 italic">Als Amazon-Partner verdiene ich an qualifizierten
+                        Verkäufen.</p>
+                </div>
+
+                <h3 id="geschichte">Von Aristoteles bis Wikipedia</h3>
+                <p>
+                    Die Wurzeln der enzyklopädischen Bestrebungen liegen tief in der Antike. Aristoteles wird oft als
+                    "Vater des enzyklopädischen Denkens" bezeichnet, da er versuchte, alle Bereiche des Wissens – von
+                    der Biologie bis zur Metaphysik – in ein kohärentes System zu überführen. Doch erst im 18.
+                    Jahrhundert, während der Aufklärung, erreichte die Enzyklopädie ihre bis heute gültige Form. Diderot
+                    und D’Alembert schufen mit ihrer "Encyclopédie" ein Werk, das nicht nur Wissen sammelte, sondern die
+                    Weltanschauung einer ganzen Epoche veränderte. Sie glaubten fest daran, dass die Verbreitung von
+                    Wissen der einzige Weg zur Befreiung des Menschen von Unwissenheit und Tyrannei sei.
+                </p>
+                <p>
+                    Mit dem Einbruch des digitalen Zeitalters hat sich die Form der Enzyklopädie radikal gewandelt. Die
+                    ehemals schweren, in Leder gebundenen Bände sind flüchtigen, aber unendlich erweiterbaren
+                    Datenbanken gewichen. Diese Demokratisierung des Wissens hat enorme Vorteile, stellt uns aber auch
+                    vor neue Herausforderungen: Die Prüfung von Quellen und die Sicherstellung von Objektivität in einer
+                    Ära der algorithmisch gesteuerten Aufmerksamkeitsökonomie ist wichtiger denn je.
+                </p>
+
+                <!-- Knowledge Box -->
+                <div
+                    class="my-24 p-16 bg-white shadow-[0_50px_100px_-20px_rgba(0,0,0,0.1)] rounded-[3rem] border-t-8 border-classicGold relative fade-on-scroll">
+                    <div
+                        class="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 bg-classicGold rounded-full flex items-center justify-center text-4xl shadow-2xl">
+                        🎓</div>
+                    <h4
+                        class="text-4xl font-serif font-black text-libraryGreen mb-12 text-center uppercase tracking-tighter">
+                        Struktur des Wissens</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                        <div class="flex items-start gap-6">
+                            <div
+                                class="w-10 h-10 rounded-full bg-classicGold/20 flex items-center justify-center text-classicGold font-bold flex-shrink-0">
+                                I</div>
+                            <p class="text-xl m-0"><span
+                                    class="font-bold text-libraryGreen underline decoration-classicGold">Taxonomie</span>
+                                – Die Kunst der systematischen Klassifizierung.</p>
+                        </div>
+                        <div class="flex items-start gap-6">
+                            <div
+                                class="w-10 h-10 rounded-full bg-classicGold/20 flex items-center justify-center text-classicGold font-bold flex-shrink-0">
+                                II</div>
+                            <p class="text-xl m-0"><span
+                                    class="font-bold text-libraryGreen underline decoration-classicGold">Etymologie</span>
+                                – Die Erforschung der Herkunft und Bedeutung.</p>
+                        </div>
+                        <div class="flex items-start gap-6">
+                            <div
+                                class="w-10 h-10 rounded-full bg-classicGold/20 flex items-center justify-center text-classicGold font-bold flex-shrink-0">
+                                III</div>
+                            <p class="text-xl m-0"><span
+                                    class="font-bold text-libraryGreen underline decoration-classicGold">Empirie</span>
+                                – Die Validierung durch Beobachtung und Evidenz.</p>
+                        </div>
+                        <div class="flex items-start gap-6">
+                            <div
+                                class="w-10 h-10 rounded-full bg-classicGold/20 flex items-center justify-center text-classicGold font-bold flex-shrink-0">
+                                IV</div>
+                            <p class="text-xl m-0"><span
+                                    class="font-bold text-libraryGreen underline decoration-classicGold">Dialektik</span>
+                                – Der Erkenntnisgewinn durch Diskurs und Synthese.</p>
+                        </div>
+                        <div
+                            class="flex items-start gap-6 md:col-span-2 bg-cream p-10 rounded-3xl border border-academicNavy/5">
+                            <p class="text-xl m-0 font-medium italic text-academicNavy/70 text-center w-full">"Wissen
+                                ist das einzige Gut, das sich vermehrt, wenn man es teilt." – Marie von Ebner-Eschenbach
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 id="wissenschaft">Die Verantwortung des Kurators</h3>
+                <p>
+                    In einer Zeit, in der Information "on demand" verfügbar ist, verschiebt sich die Rolle der
+                    Enzyklopädie hin zur Kuratierung. Es geht nicht mehr darum, alles zu sagen, sondern das Wesentliche
+                    vom Unwesentlichen zu trennen. Die Qualität einer Wissensdatenbank misst sich heute an ihrer
+                    Resistenz gegenüber Desinformation und ihrer Fähigkeit, komplexe Zusammenhänge verständlich
+                    darzustellen, ohne die wissenschaftliche Exaktheit zu opfern.
+                </p>
+                <p>
+                    Wir bei <strong>Enzy.de</strong> verstehen uns als Hüter dieses Gleichgewichts. Jeder Artikel, jedes
+                    Schlagwort und jede Querverbindung wird mit dem Ziel erstellt, dem Leser einen Mehrwert zu bieten,
+                    der über die bloße Information hinausgeht. Wir möchten das Staunen über die Komplexität unserer Welt
+                    fördern und gleichzeitig die Klarheit des Denkens schärfen. Bildung ist für uns kein Ziel, sondern
+                    ein lebenslanger Prozess.
+                </p>
+
+                <!-- Academic Insight -->
+                <div
+                    class="my-24 flex flex-col md:flex-row rounded-[3rem] overflow-hidden shadow-2xl border border-libraryGreen/10 fade-on-scroll">
+                    <div class="md:w-1/3 bg-libraryGreen p-16 flex flex-col justify-center items-center text-center">
+                        <span class="text-6xl mb-6">🏛️</span>
+                        <h5 class="text-classicGold font-serif font-black text-3xl uppercase tracking-tighter">Das
+                            Archiv <br> der Zeit</h5>
+                    </div>
+                    <div class="md:w-2/3 p-16 bg-white">
+                        <p class="text-2xl leading-relaxed m-0 italic text-academicNavy/80">
+                            "Die Enzyklopädie der Zukunft wird nicht aus statischen Texten bestehen, sondern aus einem
+                            dynamischen Geflecht aus Daten, Visualisierungen und Echtzeit-Updates. Sie wird ein lebendes
+                            Modell unserer Realität sein."
+                        </p>
+                    </div>
+                </div>
+
+                <h3 id="zukunft">Wissen als Fundament der Freiheit</h3>
+                <p>
+                    Abschließend lässt sich festhalten, dass der Zugang zu fundiertem Wissen eines der höchsten Güter
+                    einer freien Gesellschaft ist. Eine Enzyklopädie ist immer auch ein politisches Instrument – sie
+                    definiert, was wir als wahr und bedeutsam anerkennen. Indem wir die Tradition des enzyklopädischen
+                    Sammelns fortführen, beteiligen wir uns aktiv an der Gestaltung einer aufgeklärten Zukunft. Wir
+                    laden Sie ein, Teil dieses Diskurses zu werden, die Tiefen unseres Archivs zu erkunden und gemeinsam
+                    mit uns das Fundament für ein tieferes Verständnis unserer Welt zu legen.
+                </p>
+
+            </article>
+
+            <!-- Final Highlight -->
+            <div
+                class="mt-40 p-16 bg-academicNavy text-white rounded-[4rem] shadow-3xl relative overflow-hidden fade-on-scroll border border-classicGold/20">
+                <div class="absolute bottom-0 left-0 w-full h-2 bg-classicGold"></div>
+                <div class="relative z-10 flex flex-col md:flex-row gap-16 items-center">
+                    <div class="text-8xl filter drop-shadow-[0_0_20px_rgba(212,175,55,0.3)]">🧠</div>
+                    <div>
+                        <h4 class="text-4xl font-serif font-black text-classicGold mb-6 uppercase tracking-tight">
+                            Erkenntnis des Tages</h4>
+                        <p class="text-slateLight text-2xl m-0 leading-relaxed italic font-light">
+                            "Das größte Hemmnis für den Fortschritt ist nicht das Unwissen, sondern die Illusion des
+                            Wissens. Nur wer bereit ist, seine Gewissheiten zu hinterfragen, wird wahre Erkenntnis
+                            finden."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Content Directory -->
+    <section id="archiv" class="py-40 bg-libraryGreen text-white relative">
+        <div
+            class="absolute top-0 right-0 w-full h-px bg-gradient-to-l from-transparent via-classicGold to-transparent">
+        </div>
+        <div class="container mx-auto px-6 max-w-6xl">
+            <h2 class="text-5xl md:text-7xl font-serif font-black text-center mb-32 tracking-tight">Themenbereiche</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div
+                    class="fade-on-scroll p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-all cursor-pointer">
+                    <div class="text-classicGold text-xs font-black uppercase tracking-widest mb-6">Sektion 01</div>
+                    <h4 class="text-2xl font-bold mb-4 border-l-4 border-classicGold pl-6 leading-tight">
+                        Naturwissenschaften</h4>
+                    <p class="text-slateLight text-sm">Physik, Astronomie und die Gesetze des Kosmos.</p>
+                </div>
+                <div
+                    class="fade-on-scroll p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-all cursor-pointer">
+                    <div class="text-classicGold text-xs font-black uppercase tracking-widest mb-6">Sektion 02</div>
+                    <h4 class="text-2xl font-bold mb-4 border-l-4 border-classicGold pl-6 leading-tight">
+                        Geisteswissenschaften</h4>
+                    <p class="text-slateLight text-sm">Philosophie, Geschichte und die Wurzeln des Seins.</p>
+                </div>
+                <div
+                    class="fade-on-scroll p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-all cursor-pointer">
+                    <div class="text-classicGold text-xs font-black uppercase tracking-widest mb-6">Sektion 03</div>
+                    <h4 class="text-2xl font-bold mb-4 border-l-4 border-classicGold pl-6 leading-tight">Technologie
+                    </h4>
+                    <p class="text-slateLight text-sm">Quantencomputing, KI und die digitale Transformation.</p>
+                </div>
+                <div
+                    class="fade-on-scroll p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-all cursor-pointer">
+                    <div class="text-classicGold text-xs font-black uppercase tracking-widest mb-6">Sektion 04</div>
+                    <h4 class="text-2xl font-bold mb-4 border-l-4 border-classicGold pl-6 leading-tight">Kunst & Kultur
+                    </h4>
+                    <p class="text-slateLight text-sm">Das ästhetische Erbe und die Evolution der Formen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-32 bg-cream border-t border-academicNavy/5">
+        <div class="container mx-auto px-6 text-center">
+            <div class="text-academicNavy font-serif font-black text-5xl mb-8 tracking-tighter italic">Enzy<span
+                    class="text-classicGold">.de</span></div>
+            <div class="w-16 h-1 bg-classicGold mx-auto mb-10"></div>
+            <p class="text-slateLight text-sm mb-20 tracking-[0.5em] uppercase font-bold">Wissen schafft Zukunft</p>
+
+            <nav
+                class="flex flex-wrap justify-center gap-12 text-academicNavy font-semibold text-[13px] mb-24 uppercase tracking-[0.3em]">
+                <a href="#" class="hover:text-classicGold transition-all">Startseite</a>
+                <a href="#" class="hover:text-classicGold transition-all">Enzyklopädie</a>
+                <a href="#" class="hover:text-classicGold transition-all">Recherche</a>
+                <a href="#" class="hover:text-classicGold transition-all">Kontakt</a>
+                <a href="#" class="hover:text-classicGold transition-all">Mitwirken</a>
+            </nav>
+
+            <div
+                class="flex flex-col md:flex-row justify-center items-center gap-12 mb-16 text-[10px] uppercase font-black tracking-[0.4em] text-slateLight">
+                <a href="/"
+                    class="hover:text-academicNavy hover:underline decoration-classicGold underline-offset-8 transition-all">Impressum</a>
+                <a href="/"
+                    class="hover:text-academicNavy hover:underline decoration-classicGold underline-offset-8 transition-all">Datenschutz</a>
+                <a href="/"
+                    class="hover:text-academicNavy hover:underline decoration-classicGold underline-offset-8 transition-all">Rechtliches</a>
+            </div>
+
+            <p
+                class="text-[11px] text-slateLight/60 tracking-widest uppercase italic border-t border-academicNavy/5 pt-12">
+                © 2026 Academic Knowledge Portfolio. <br class="md:hidden"> Dokumentation des menschlichen Geistes.</p>
+        </div>
+    </footer>
+
+    <!-- Animations Script -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-visible');
+                    entry.target.classList.remove('fade-enter');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-on-scroll').forEach(el => {
+            el.classList.add('fade-enter');
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>
